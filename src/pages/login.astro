@@ -1,0 +1,46 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Login - Cátedra de Programación" description="pagina">
+    <main class="flex flex-col items-center justify-center min-h-screen">
+        <div
+            class="p-8 bg-white shadow-xl rounded-2xl border border-gray-200 text-center"
+        >
+            <h1 class="text-2xl font-bold mb-6">Acceso para Alumnos</h1>
+            <p class="text-gray-600 mb-8">
+                Ingresá con tu cuenta de GitHub para ver los ejercicios.
+            </p>
+
+            <button
+                id="loginBtn"
+                class="bg-gray-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors flex items-center gap-2 mx-auto"
+            >
+                <img
+                    src="/GitHub_Invertocat_White_Clearspace.png"
+                    alt="GitHub"
+                    class="size-8"
+                />
+                Sign in with Github
+            </button>
+        </div>
+    </main>
+</Layout>
+
+<script>
+    import { supabase } from "../lib/supabase";
+    const setupLogin = () => {
+        const loginBtn = document.querySelector("#loginBtn");
+        loginBtn?.addEventListener("click", async () => {
+            console.log("Intentando login...");
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: "github",
+                options: {
+                    redirectTo: window.location.origin + "/auth/callback",
+                },
+            });
+            if (error) console.error("Error:", error);
+        });
+    };
+    setupLogin();
+</script>

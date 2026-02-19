@@ -1,0 +1,14 @@
+---
+import Tp from "../components/Tp.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Trabajos Prácticos" description="Ejercicios de la cursada">
+	<div class="mt-20 space-y-10">
+		<!-- Renderiza los ejercicios correspondientes al TP 1 -->
+		<Tp tpNumber={1} materia="python" />
+
+		<!-- Renderiza los ejercicios correspondientes al TP 2 -->
+		<Tp tpNumber={2} materia="python" />
+	</div>
+</Layout>

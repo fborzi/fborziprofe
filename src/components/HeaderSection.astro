@@ -1,0 +1,134 @@
+---
+import WhatsappIcon from "../icons/WhatsappIcon.astro";
+import Dropdown from "./Dropdown.svelte";
+
+const URL_WHATSAPP = "https://wa.me/5491151541828";
+---
+
+<header
+    class={`
+    navbar
+    glass
+    flex justify-center items-center
+    mx-auto
+    py-1
+    fixed top-0
+    w-full
+    z-1
+    backdrop-blur-sm
+    bg-black/40
+    border-b border-white/10 rounded-b-lg
+    shadow-lg
+  `}
+>
+    <a href="/#"
+        ><img
+            id="navbar"
+            class="rounded-full size-12 me-5 mr-2 drop-shadow-sm hover:scale-110"
+            src="/favicon.svg"
+            alt="imagen fborzi"
+        />
+    </a>
+    <nav
+        id="navbar"
+        class={`
+        px-4 py-2
+        flex flex-row items-center 
+      `}
+    >
+        <a
+            class="text-white hover:scale-110 px-3 py-1 rounded-full transition drop-shadow-sm"
+            href="/estudiantes">Estudiantes</a
+        >
+        <a
+            class="text-white hover:scale-110 px-3 py-1 rounded-full transition drop-shadow-sm"
+            href="/login">Login</a
+        >
+        <a
+            class={`
+                rounded-full size-10
+                flex justify-center items-center gap-x-2
+                text-xs md:text-base
+                text-white
+                transition drop-shadow-sm
+                hover:scale-110
+            `}
+            href={`${URL_WHATSAPP}`}
+        >
+            <WhatsappIcon />
+        </a>
+    </nav>
+</header>
+<header
+    class={`
+    dropdown
+    glass
+    dropdown
+    flex justify-start
+    mx-auto
+    px-2
+    py-1
+    fixed top-0
+    w-full
+    z-1
+    backdrop-blur
+    bg-black/40
+    border-b border-white/10 rounded-b-lg
+    shadow-lg
+`}
+>
+    <Dropdown client:visible />
+</header>
+
+<style>
+    @media screen and (max-width: 768px) {
+        #navbar {
+            display: none;
+        }
+    }
+    @media screen and (min-width: 768px) {
+        .dropdown {
+            display: none;
+        }
+    }
+
+    .navbar {
+        mix-blend-mode: difference;
+        isolation: isolate;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+    .dropdown {
+        mix-blend-mode: difference;
+        isolation: isolate;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+    .glass {
+        /* position: relative; */
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        backdrop-filter: saturate(140%);
+    }
+    .glass::before {
+        content: "";
+        /* position: absolute; */
+        inset: 0;
+        border-radius: inherit;
+        background:
+            linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.35),
+                rgba(255, 255, 255, 0.05) 40%,
+                rgba(255, 255, 255, 0) 60%
+            ),
+            radial-gradient(
+                120% 60% at 0% 0%,
+                rgba(255, 255, 255, 0.25),
+                rgba(255, 255, 255, 0) 60%
+            );
+        pointer-events: none;
+        mix-blend-mode: screen;
+    }
+</style>
