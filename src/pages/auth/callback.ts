@@ -4,17 +4,19 @@ import { getSupabase } from "../../lib/supabase";
 export const GET: APIRoute = async ({ url, cookies, redirect }) => {
     const authCode = url.searchParams.get("code");
 
-    if (authCode) {
-        // Al pasar 'cookies', 'exchangeCodeForSession' las guardará automáticamente 
-        // con el nombre correcto que Supabase espera.
-        const supabaseServer = getSupabase(cookies);
-        const { error } = await supabaseServer.auth.exchangeCodeForSession(authCode);
-
-        if (!error) {
-            return redirect("/"); 
-        }
-        console.error("Error intercambio:", error.message);
+    if (!authCode) {
+        return new Response("No se proporcionó un código de autorización", { status: 400 });
     }
 
-    return redirect("/login?error=auth-failed");
+    const supabase = getSupabase(cookies);
+    const { error } = await supabase.auth.exchangeCodeForSession(authCode);
+
+    if (error) {
+        console.error("Error en auth callback:", error);
+        return new Response("Error de autenticación: " + error.message, { status: 500 });
+    }
+
+    // ÉXITO: El usuario ya tiene la cookie de sesión.
+    // Lo mandamos directamente a su panel de estudiantes.
+    return redirect("/estudiantes");
 };

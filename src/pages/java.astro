@@ -1,0 +1,16 @@
+---
+import JavaComponent from "../components/JavaComponent.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Trabajos Prácticos" description="Ejercicios de la cursada">
+	<div class="mt-20 space-y-10">
+		<!-- Renderiza los ejercicios correspondientes al TP 1 -->
+		<JavaComponent tpNumber={1} materia="java" isOpen={true}/>
+		<JavaComponent tpNumber={2} materia="java" />
+		<JavaComponent tpNumber={3} materia="java" />
+		<JavaComponent tpNumber={4} materia="java" />
+		<JavaComponent tpNumber={5} materia="java" />
+		
+	</div>
+</Layout>

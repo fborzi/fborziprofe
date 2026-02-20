@@ -1,0 +1,44 @@
+---
+import PythonComponent from "../components/PythonComponent.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<!-- <Layout title="Trabajos Prácticos" description="Ejercicios de la cursada">
+	<div class="mt-20 space-y-10">
+		 Renderiza los ejercicios correspondientes al TP 1 
+		<PythonComponent tpNumber={1} materia="python" isOpen={true}/>
+
+		 Renderiza los ejercicios correspondientes al TP 2 
+		<PythonComponent tpNumber={2} materia="python" />
+		<PythonComponent tpNumber={3} materia="python" />
+		<PythonComponent tpNumber={4} materia="python" />
+		<PythonComponent tpNumber={5} materia="python" />
+		
+	</div>
+</Layout> -->
+
+<Layout title="Ejercicios Python" description="Trabajos prácticos de la materia Python">
+    <main class="min-h-screen pt-28 pb-12 px-4 relative">
+        
+        <!-- Botón para Volver Atrás -->
+        <div class="max-w-4xl mx-auto mb-6">
+            <a href="/estudiantes" class="inline-flex items-center text-gray-400 hover:text-white transition-colors bg-white/5 border border-white/10 px-4 py-2 rounded-xl backdrop-blur-md">
+                <svg class="size-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Volver a las materias
+            </a>
+        </div>
+
+        <!-- Renderizamos todos los TPs de Python aquí -->
+        <div class="space-y-4">
+            <PythonComponent tpNumber={1} materia="python" />
+            <PythonComponent tpNumber={2} materia="python" />
+            <PythonComponent tpNumber={3} materia="python" />
+            <!-- Dejamos el TP actual (el 4) abierto por defecto -->
+            <PythonComponent tpNumber={4} materia="python" isOpen={true} />
+            <PythonComponent tpNumber={5} materia="python" />
+        </div>
+        
+    </main>
+</Layout>

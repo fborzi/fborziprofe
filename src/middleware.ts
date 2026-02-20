@@ -1,46 +1,53 @@
+// src/middleware.ts
 // import { defineMiddleware } from "astro:middleware";
-// import { supabase } from "./lib/supabase";
+// import { getSupabase } from "./lib/supabase";
 
 // export const onRequest = defineMiddleware(async (context, next) => {
-//   // 1. Obtenemos la sesión del usuario (vía cookies que maneja Supabase)
-//   const { data: { session } } = await supabase.auth.getSession();
+//   // Le pasamos las cookies del contexto
+//   const supabaseServer = getSupabase(context.cookies);
+  
+//   const { data: { session } } = await supabaseServer.auth.getSession();
 
-//   // 2. Definimos qué rutas NO necesitan login (login y el callback de auth)
 //   const isPublicRoute = context.url.pathname === "/login" || context.url.pathname === "/auth/callback";
 
-//   // 3. Si no hay sesión y quiere entrar a una ruta privada, al login
 //   if (!session && !isPublicRoute) {
 //     return context.redirect("/login");
 //   }
 
-//   // 4. Si ya está logueado y quiere ir al login, mandalo al dashboard
+//   // Si está logueado y va al login, al index
 //   if (session && context.url.pathname === "/login") {
-//     return context.redirect("/inicio");
+//     return context.redirect("/");
 //   }
 
 //   return next();
 // });
 
-// src/middleware.ts
 import { defineMiddleware } from "astro:middleware";
 import { getSupabase } from "./lib/supabase";
 
-export const onRequest = defineMiddleware(async (context, next) => {
-  // Le pasamos las cookies del contexto
-  const supabaseServer = getSupabase(context.cookies);
-  
-  const { data: { session } } = await supabaseServer.auth.getSession();
+export const onRequest = defineMiddleware(async ({ cookies, redirect, url }, next) => {
+    // Inicializamos Supabase con las cookies actuales
+    const supabase = getSupabase(cookies);
+    
+    // Obtenemos la sesión actual de forma segura en el servidor
+    const { data: { session } } = await supabase.auth.getSession();
 
-  const isPublicRoute = context.url.pathname === "/login" || context.url.pathname === "/auth/callback";
+    // 1. Proteger la ruta de estudiantes (y sus subrutas como /estudiantes/tp1)
+    if (url.pathname.startsWith('/estudiantes')) {
+        if (!session) {
+            // Si NO hay sesión, redirigir al login
+            return redirect('/login');
+        }
+    }
 
-  if (!session && !isPublicRoute) {
-    return context.redirect("/login");
-  }
+    // 2. Si el usuario YA está logueado, no tiene sentido que vea la pantalla de login
+    if (url.pathname === '/login') {
+        if (session) {
+            // Lo enviamos directo a su panel
+            return redirect('/estudiantes');
+        }
+    }
 
-  // Si está logueado y va al login, al index
-  if (session && context.url.pathname === "/login") {
-    return context.redirect("/");
-  }
-
-  return next();
+    // Si no se cumple ninguna de las reglas anteriores, dejamos que la petición continúe normalmente
+    return next();
 });

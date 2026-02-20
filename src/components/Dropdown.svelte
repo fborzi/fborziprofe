@@ -1,6 +1,9 @@
 <script>
     import DropdownClose from "../icons/DropdownOpen.svelte";
 
+    // Recibimos la prop desde Astro
+    export let isLoggedIn = false;
+    
     let isDropdownOpen = false;
 
     const handleClick = () => {
@@ -21,18 +24,16 @@
                     class="dropdown-content menu p-2 w-full flex flex-col items-center justify-center"
                     style:visibility={isDropdownOpen ? "visible" : "hidden"}
                 >
-                    <a
-                        class="text-white hover:text-black px-3 py-1 rounded-full transition"
-                        href="/#">Inicio</a
-                    >
-                    <a
-                        class="text-white hover:scale-110 px-3 py-1 rounded-full transition drop-shadow-sm"
-                        href="/estudiantes">Estudiantes</a
-                    >
-                    <a
-                        class="text-white hover:scale-110 px-3 py-1 rounded-full transition drop-shadow-sm"
-                        href="/login">Login</a
-                    >
+                    <a class="text-white hover:text-black px-3 py-1 rounded-full transition" href="/#">Inicio</a>
+                    <a class="text-white hover:scale-110 px-3 py-1 rounded-full transition drop-shadow-sm" href="/estudiantes">Estudiantes</a>
+                    
+                    <!-- Lógica condicional Mobile -->
+                    {#if isLoggedIn}
+                        <a class="text-red-300 hover:scale-110 px-3 py-1 rounded-full transition drop-shadow-sm " href="/auth/signout">Log Out</a>
+                    {:else}
+                        <a class="text-white hover:scale-110 px-3 py-1 rounded-full transition drop-shadow-sm" href="/login">Log In</a>
+                    {/if}
+
                     <a
                         class="text-white hover:text-black px-3 py-1 rounded-full transition"
                         href="https://wa.me/5491151541828"
