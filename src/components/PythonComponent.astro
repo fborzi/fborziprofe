@@ -10,14 +10,16 @@ interface Props {
 
 const { tpNumber, materia, isOpen = false } = Astro.props;
 
-// Creamos un wrapper de solo lectura para las cookies.
-const readOnlyCookies = {
-  get: (key: string) => Astro.cookies.get(key),
-  set: (key: string, value: any, options: any) => { /* Ignorar en renderizado */ },
-  delete: (key: string, options: any) => { /* Ignorar en renderizado */ }
-};
+// // Creamos un wrapper de solo lectura para las cookies.
+// const readOnlyCookies = {
+//   get: (key: string) => Astro.cookies.get(key),
+//   set: (key: string, value: any, options: any) => { /* Ignorar en renderizado */ },
+//   delete: (key: string, options: any) => { /* Ignorar en renderizado */ }
+// };
 
-const supabase = getSupabase(readOnlyCookies);
+// const supabase = getSupabase(readOnlyCookies);
+
+const supabase = Astro.locals.supabase;
 
 // Consultamos los ejercicios de ESTE Trabajo Práctico y de ESTA materia
 const { data: exercises, error } = await supabase
