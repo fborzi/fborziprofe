@@ -1,0 +1,68 @@
+---
+import HeaderSection from "../components/HeaderSection.astro";
+// import FooterSection from "../components/FooterSection.astro";
+
+import "@fontsource-variable/montserrat";
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { description, title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="relative text-white">
+		<div class="absolute inset-0 z-[-10] pointer-events-none">
+			<div
+				class="fixed inset-0 z-[-2] bg-[#1f1f1f] bg-[radial-gradient(#cfcfcf_1px,#1f1f1f_1px)] bg-[size:20px_20px] bg-fixed"
+			>
+			</div>
+		</div>
+	</body>
+
+	<HeaderSection />
+	<slot />
+	{/* <FooterSection /> */}
+</html>
+
+<style is:global>
+	:root {
+		color-scheme: dark;
+	}
+	html {
+		scroll-behavior: smooth;
+		font-family: "Montserrat Variable", system-ui, sans-serif;
+	}
+	header {
+		z-index: 3;
+	}
+	body {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+		overscroll-behavior: none;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+	}
+
+	@media (prefers-color-scheme: dark) {
+		body {
+			color: rgba(255, 255, 255, 0.9);
+		}
+	}
+</style>
