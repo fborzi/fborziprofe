@@ -1,0 +1,34 @@
+name: Keep Supabase Alive
+
+on:
+  # Se ejecuta automáticamente cada 5 días a la medianoche
+  schedule:
+    - cron: '0 0 */5 * *'
+  # Permite ejecutarlo manualmente desde la pestaña "Actions" de GitHub
+  workflow_dispatch:
+
+jobs:
+  ping_supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Health Endpoint
+        env:
+          # Usamos tu URL pública de Supabase guardada en los secrets de GitHub
+          SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
+        run: |
+          if [ -z "$SUPABASE_URL" ]; then
+            echo "Error: PUBLIC_SUPABASE_URL secret is not set."
+            exit 1
+          fi
+          
+          echo "Haciendo ping a Supabase para evitar que se pause..."
+          
+          # Hacemos una petición GET al endpoint de health (el mismo que vimos en tus logs)
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$SUPABASE_URL/auth/v1/health")
+          
+          if [ "$HTTP_STATUS" -eq 200 ]; then
+            echo "Ping exitoso. Estado HTTP: $HTTP_STATUS. El proyecto sigue activo."
+          else
+            echo "Error en el ping. Estado HTTP: $HTTP_STATUS"
+            exit 1
+          fi
