@@ -22,14 +22,14 @@ jobs:
             exit 1
           fi
           
-          echo "Haciendo ping a Supabase para evitar que se pause..."
+          echo "Haciendo ping a la base de datos de Supabase para evitar que se pause..."
           
-          # Hacemos una petición GET enviando el apikey en los Headers (-H)
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -H "apikey: $SUPABASE_ANON_KEY" "$SUPABASE_URL/auth/v1/health")
+          # Hacemos una petición GET a la tabla 'exercises' (PostgREST)
+          # Esto despierta a la base de datos PostgreSQL real, asegurando la actividad
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -H "apikey: $SUPABASE_ANON_KEY" -H "Authorization: Bearer $SUPABASE_ANON_KEY" "$SUPABASE_URL/rest/v1/exercises?select=id&limit=1")
           
           if [ "$HTTP_STATUS" -eq 200 ]; then
-            echo "Ping exitoso. Estado HTTP: $HTTP_STATUS. El proyecto sigue activo."
-          else
+            echo "Ping a la BD exitoso. Estado HTTP: $HTTP_STATUS. El proyecto sigue activo."
             echo "Error en el ping. Estado HTTP: $HTTP_STATUS"
             exit 1
           fi
