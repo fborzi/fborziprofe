@@ -30,6 +30,7 @@ jobs:
           
           if [ "$HTTP_STATUS" -eq 200 ]; then
             echo "Ping a la BD exitoso. Estado HTTP: $HTTP_STATUS. El proyecto sigue activo."
+          else
             echo "Error en el ping. Estado HTTP: $HTTP_STATUS"
             exit 1
           fi
