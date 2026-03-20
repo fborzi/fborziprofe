@@ -7,7 +7,9 @@ import vercel from '@astrojs/vercel';
 // https://astro.build/config
 export default defineConfig({
     output: 'server',
-    adapter: vercel(),
+    adapter: vercel({
+        imageService: true, // Le dice a Vercel que use su propia API de optimización de imágenes
+    }),
     integrations: [
         svelte(),
         tailwindcss()
