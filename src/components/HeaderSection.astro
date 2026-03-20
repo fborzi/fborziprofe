@@ -1,27 +1,14 @@
 ---
 import WhatsappIcon from "../icons/WhatsappIcon.astro";
 import Dropdown from "./Dropdown.svelte";
-import { getSupabase } from "../lib/supabase";
 
 const URL_WHATSAPP = "https://wa.me/5491151541828";
-
-// // 1. Wrapper de solo lectura para evitar el ResponseSentError de Astro
-// const readOnlyCookies = {
-//     get: (key: string) => Astro.cookies.get(key),
-//     set: () => {},
-//     delete: () => {}
-// };
-
-// // 2. Verificamos si el usuario tiene sesión activa
-// const supabase = getSupabase(readOnlyCookies);
-// const { data: { session } } = await supabase.auth.getSession();
-// const isLoggedIn = !!session;
 const isLoggedIn = Astro.locals.isLoggedIn;
 ---
 
 <!-- Menú Desktop -->
 <header
-    class="navbar flex justify-center items-center mx-auto py-1 fixed top-0 w-full z-20 backdrop-blur bg-gray/20 border-b border-white/10 rounded-b-lg shadow-lg drop-shadow-md shadow-white/5"
+    class="navbar flex justify-center items-center mx-auto py-1 fixed top-0 w-full z-[100] backdrop-blur bg-gray/20 border-b border-white/10 rounded-b-lg shadow-lg drop-shadow-md shadow-white/5"
 >
     <a href="/#">
         <img
@@ -59,7 +46,7 @@ const isLoggedIn = Astro.locals.isLoggedIn;
 
 <!-- Menú Mobile -->
 <header
-    class="dropdown flex justify-start mx-auto px-2 py-1 fixed top-0 w-full z-20 backdrop-blur bg-gray/20 border-b border-white/10 rounded-b-lg shadow-lg drop-shadow-md shadow-white/5"
+    class="dropdown flex justify-start mx-auto px-2 py-1 fixed top-0 w-full z-[100] backdrop-blur bg-gray/20 border-b border-white/10 rounded-b-lg shadow-lg drop-shadow-md shadow-white/5"
 >
     <!-- Le pasamos la prop isLoggedIn al componente Svelte -->
     <Dropdown client:visible isLoggedIn={isLoggedIn} />
